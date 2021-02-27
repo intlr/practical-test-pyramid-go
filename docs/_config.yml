@@ -1,0 +1,14 @@
+---
+title: Pratical Test Pyramid
+desc: Personal notes on the article Ham Vocke wrote
+url: "https://alr-lab.github.io"
+baseurl: "/ptp"
+source: .
+destination: _site
+timezone: Europe/Berlin
+default_lang: en
+encoding: utf-8
+safe: true
+exclude:
+  - Gemfile
+  - Gemfile.lock
