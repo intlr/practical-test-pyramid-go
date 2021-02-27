@@ -1,14 +1,26 @@
 ---
 permalink: /
 ---
-Personal notes on [the article Ham Vocke wrote](https://martinfowler.com/articles/practical-test-pyramid.html) on the subject.
+Personal notes on [the article Ham Vocke wrote](https://martinfowler.com/articles/practical-test-pyramid.html) on the subject and interpretation to a Golang application
 
-```go
-package main
+## Unit tests
 
-import "fmt"
+## Integration tests
 
-func main() {
-	fmt.Println("Hello, world!")
-}
-```
+## Contract tests
+
+## UI tests
+
+## End-to-end tests
+
+## Acceptance tests
+
+## Exploratory testing
+
+## Terminology
+
+## Deployment pipeline
+
+## Test duplication
+
+## Clean test code
