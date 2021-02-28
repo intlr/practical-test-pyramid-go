@@ -346,6 +346,12 @@ func TestClient(t *testing.T) {
 
 ## UI tests
 
+- REST API, CLI, and web interfaces are _User Interfaces (UI)_
+- UI tests test the user interface is working as expected
+- Testing UI can be modular, as testing JavaScript code with backend
+  stubbed
+- Test behaviour, layout, usability... on web interfaces
+
 ## End-to-end tests
 
 ## Acceptance tests
