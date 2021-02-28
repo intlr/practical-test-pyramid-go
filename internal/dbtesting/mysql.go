@@ -36,7 +36,7 @@ func DatabaseHelper(t *testing.T) *sql.DB {
 	}
 
 	conn.SetMaxOpenConns(5)
-	conn.SetConnMaxLifetime(10*time.Minute)
+	conn.SetConnMaxLifetime(10 * time.Minute)
 
 	query := fmt.Sprintf(
 		`SET GLOBAL max_connections = 10; DROP DATABASE IF EXISTS %[1]s; CREATE DATABASE %[1]s; USE %[1]s;`,
