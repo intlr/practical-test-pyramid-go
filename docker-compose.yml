@@ -7,6 +7,8 @@ services:
       context: .
       dockerfile: Dockerfile
     command: go run cmd/server/main.go
+    volumes:
+      - .:/go/src/github.com/alr-lab/ptp
     networks:
       - app
 

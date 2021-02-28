@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-type Store struct{
+type Store struct {
 	conn *sql.DB
 }
 

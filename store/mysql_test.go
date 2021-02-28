@@ -9,20 +9,37 @@ import (
 )
 
 func TestStore(t *testing.T) {
-	want := "fake"
-
+	// Arrange
 	conn := dbtesting.DatabaseHelper(t)
-	defer func(){ _ = conn.Close() }()
-
+	defer func() { _ = conn.Close() }()
 	st := &store.Store{}
 	st.SetConn(conn)
-
-	got, err := st.GetCustomerEmail(context.Background(), 42)
-	if err != nil {
-		t.Fatalf("Unable to get customer email, err = %s", err)
+	tt := map[string]struct {
+		id   int
+		want string
+	}{
+		"Valid customer identifier will return valid email": {
+			id:   42,
+			want: "fake",
+		},
+		"Invalid customer identifier will return empty string": {
+			id:   1337,
+			want: "",
+		},
 	}
 
-	if got != want {
-		t.Fatalf("got %q, want %q", got, want)
+	for name, tc := range tt {
+		t.Run(name, func(t *testing.T) {
+			// Act
+			got, err := st.GetCustomerEmail(context.Background(), tc.id)
+
+			// Assert
+			if err != nil {
+				t.Fatalf("Unable to get customer email, err = %s", err)
+			}
+			if got != tc.want {
+				t.Fatalf("got %q, want %q", got, tc.want)
+			}
+		})
 	}
 }
