@@ -89,6 +89,23 @@ func TestService(t *testing.T) {
 
 ## Integration tests
 
+- Test integrations with other parts such as database, filesystems, and
+  network
+- Also run the components we are integrating
+- Different kind of integration tests
+  - Test through the entire stack
+  - Test integrations one by one, doubling the others if needed
+- Database integration test
+  1. Start database
+  2. Connect application to database
+  3. Interact with database
+  4. Validate expectations
+- API integration test
+  1. Start application
+  2. Start instance of the API
+  3. Interact with the API
+  4. Validate expectations
+
 ## Contract tests
 
 ## UI tests
