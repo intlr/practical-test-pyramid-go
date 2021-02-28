@@ -111,6 +111,8 @@ func TestService(t *testing.T) {
   4. Validate expectations
 - Integration tests are slower than unit-tests doubling integrations
 
+### Database integration
+
 ```go
 package dbtesting
 
