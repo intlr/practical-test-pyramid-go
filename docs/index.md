@@ -1,8 +1,8 @@
 ---
 permalink: /
 ---
-Personal notes on [the article Ham Vocke wrote][ptp-article] on the subject
-and interpretation to a Golang application.
+> Personal notes on [the article Ham Vocke wrote][ptp-article] on the
+> subject and interpretation to a Golang application
 
 The [Practical Test Pyramid in Golang][ptp-go] repository hosts all the
 examples put together to describe a microservice application. It also
