@@ -8,6 +8,21 @@ The [Practical Test Pyramid in Golang][ptp-go] repository hosts all the
 examples put together to describe a microservice application. It also
 provides the source code for this Github Page.
 
+## Table of Contents
+
+- [Unit tests](#unit-tests)
+- [Integration tests](#integration-tests)
+  - [Database integration](#database-integration)
+  - [External API integration](#external-api-integration)
+- [Contract tests](#contract-tests)
+- [UI tests](#ui-tests)
+- [End-to-end tests](#end-to-end-tests)
+- [Acceptance tests](#acceptance-tests)
+- [Exploratory testing](#exploratory-testing)
+- [Deployment pipeline](#deployment-pipeline)
+- [Test duplication](#test-duplication)
+- [Clean test code](#clean-test-code)
+
 ## Unit tests
 
 - Foundation of the test suite
