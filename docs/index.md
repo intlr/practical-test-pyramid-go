@@ -409,5 +409,9 @@ func TestClient(t *testing.T) {
 
 ## Clean test code
 
+1. Test code is as important as production code
+2. Test one condition per test
+3. Arrange, Act, Assert
+
 [ptp-article]: https://martinfowler.com/articles/practical-test-pyramid.html
 [ptp-go]: https://github.com/alr-lab/practical-test-pyramid-go
