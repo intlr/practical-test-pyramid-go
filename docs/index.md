@@ -354,6 +354,12 @@ func TestClient(t *testing.T) {
 
 ## End-to-end tests
 
+- End-to-end tests test the fully-integrated system
+- May fail for unexpected reasons
+- Require maintenance
+- Run slowly
+- Aim to reduce end-to-end tests to minimum
+
 ## Acceptance tests
 
 ## Exploratory testing
