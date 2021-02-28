@@ -369,6 +369,11 @@ func TestClient(t *testing.T) {
 
 ## Exploratory testing
 
+- Manual testing approach
+- Try to break the application
+- Use destructive mindset
+- Document for later
+
 ## Terminology
 
 ## Deployment pipeline
