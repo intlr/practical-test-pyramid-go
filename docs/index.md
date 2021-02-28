@@ -1,7 +1,12 @@
 ---
 permalink: /
 ---
-Personal notes on [the article Ham Vocke wrote](https://martinfowler.com/articles/practical-test-pyramid.html) on the subject and interpretation to a Golang application
+Personal notes on [the article Ham Vocke wrote][ptp-article] on the subject
+and interpretation to a Golang application.
+
+The [Practical Test Pyramid in Golang][ptp-go] repository hosts all the
+examples put together to describe a microservice application. It also
+provides the source code for this Github Page.
 
 ## Unit tests
 
@@ -354,3 +359,6 @@ func TestClient(t *testing.T) {
 ## Test duplication
 
 ## Clean test code
+
+[ptp-article]: https://martinfowler.com/articles/practical-test-pyramid.html
+[ptp-go]: https://github.com/alr-lab/practical-test-pyramid-go
