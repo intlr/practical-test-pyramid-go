@@ -61,6 +61,7 @@ func DatabaseHelper(t *testing.T, fixtureDir string) *sql.DB {
 	}
 
 	if fixtureDir != "" {
+		testfixtures.SkipDatabaseNameCheck(true)
 		fixtures, err := testfixtures.NewFolder(conn, &testfixtures.MySQL{}, fixtureDir)
 		if err != nil {
 			t.Fatalf("Unable to create fixtures from fixture directory, err = %s", err)

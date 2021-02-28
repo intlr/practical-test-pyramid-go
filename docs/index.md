@@ -376,6 +376,85 @@ func TestClient(t *testing.T) {
 - Run slowly
 - Aim to reduce end-to-end tests to minimum
 
+```go
+func DatabaseHelper(t *testing.T, fixtureDir string) *sql.DB {
+	t.Helper()
+
+	// Open MySQL connection and fill database with testing data...
+
+	if fixtureDir != "" {
+		testfixtures.SkipDatabaseNameCheck(true)
+		fixtures, err := testfixtures.NewFolder(conn, &testfixtures.MySQL{}, fixtureDir)
+		if err != nil {
+			t.Fatalf("Unable to create fixtures from fixture directory, err = %s", err)
+		}
+
+		if err := fixtures.Load(); err != nil {
+			t.Fatalf("Unable to load fixtures, err = %s", err)
+		}
+	}
+
+	return conn
+}
+```
+
+```yaml
+- id: 42
+  email: foo
+```
+
+```go
+package service_test
+
+import (
+	"context"
+	"fmt"
+	"testing"
+
+	"github.com/alr-lab/ptp/internal/dbtesting"
+	"github.com/alr-lab/ptp/service"
+	"github.com/alr-lab/ptp/store"
+)
+
+func TestService_fixtures(t *testing.T) {
+	// Arrange
+	tt := map[string]struct {
+		want     string
+		fixtures string
+		ctx      context.Context
+	}{
+		"Successful": {
+			want:     "foo",
+			fixtures: "successful",
+			ctx:      context.Background(),
+		},
+		"Unexisting": {
+			want:     "",
+			fixtures: "unexisting",
+			ctx:      context.Background(),
+		},
+	}
+
+	for name, tc := range tt {
+		t.Run(name, func(t *testing.T) {
+			conn := dbtesting.DatabaseHelper(t, fmt.Sprintf("fixtures/%s", tc.fixtures))
+			defer conn.Close()
+			st := &store.Store{}
+			st.SetConn(conn)
+			serv := service.New(st)
+
+			// Act
+			got := serv.Get(tc.ctx)
+
+			// Assert
+			if got != tc.want {
+				t.Fatalf("got %q, want %q", got, tc.want)
+			}
+		})
+	}
+}
+```
+
 ## Acceptance tests
 
 - Test an application from a user's perspective

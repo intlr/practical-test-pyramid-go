@@ -15,7 +15,7 @@ type (
 
 	// Store defines a contract for a datastore
 	Store interface {
-		GetCustomerEmail(ctx context.Context, id int) string
+		GetCustomerEmail(ctx context.Context, id int) (string, error)
 	}
 )
 
@@ -26,5 +26,10 @@ func New(store Store) Service {
 
 // Get returns a specific customer email
 func (s Service) Get(ctx context.Context) string {
-	return s.store.GetCustomerEmail(ctx, 42)
+	email, err := s.store.GetCustomerEmail(ctx, 42)
+	if err != nil {
+		return ""
+	}
+
+	return email
 }
