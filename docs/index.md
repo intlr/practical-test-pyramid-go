@@ -218,6 +218,108 @@ func TestStore(t *testing.T) {
 }
 ```
 
+### External API integration
+
+```go
+// The ``mockapi'' application is a simple server acting as a replacement
+// for an external API.
+//
+// With a ``docker-compose'' file we can start the server and allow our
+// application to test its integration with a production-ready instance.
+package main
+
+import (
+	"io"
+	"log"
+	"net/http"
+)
+
+func main() {
+	http.HandleFunc("/hello", func(w http.ResponseWriter, _ *http.Request) {
+		log.Print("Serving request")
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		io.WriteString(w, `{"message":"Hello, world!"}`)
+	})
+
+	if err := http.ListenAndServe(":8081", nil); err != nil {
+		log.Fatalf("Unable to start mocked server, err = %s", err)
+	}
+}
+```
+
+```go
+package extapi
+
+import (
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+)
+
+type (
+	// Client describes a client which makes requests to an external API
+	Client struct {
+		Hostname string
+	}
+
+	// HelloResponse describes a successful response to the hello endpoint
+	HelloResponse struct {
+		Message string `json:"message"`
+	}
+)
+
+// GetHello calls the hello endpoint from the external API and returns the
+// response if successful, or an error otherwise.
+func (c Client) GetHello() (*HelloResponse, error) {
+	res, err := http.Get(fmt.Sprintf("%s/hello", c.Hostname))
+	if err != nil {
+		return nil, fmt.Errorf("unable to get extapi hello response, err = %s", err)
+	}
+	defer res.Body.Close()
+
+	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		return nil, fmt.Errorf("unable to read hello response, err = %s", err)
+	}
+
+	decoded := &HelloResponse{}
+	if err := json.Unmarshal(body, decoded); err != nil {
+		return nil, fmt.Errorf("unable to decode hello response, err = %s", err)
+	}
+
+	return decoded, nil
+}
+```
+
+```go
+package extapi_test
+
+import (
+	"testing"
+
+	"github.com/alr-lab/ptp/extapi"
+)
+
+const want = "Hello, world!"
+
+func TestClient(t *testing.T) {
+	// Arrange
+	c := &extapi.Client{Hostname: "http://mockapi:8081"}
+
+	// Act
+	res, err := c.GetHello()
+
+	// Assert
+	if err != nil {
+		t.Fatalf("Unable to get mockapi hello response, err = %s", err)
+	}
+	if res.Message != want {
+		t.Fatalf("got %q, want %q", res.Message, want)
+	}
+}
+```
+
 ## Contract tests
 
 ## UI tests
