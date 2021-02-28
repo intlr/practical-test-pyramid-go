@@ -331,8 +331,13 @@ func TestClient(t *testing.T) {
   contract
 - Act as regression test suite
 - Observe deviations early
-- _Consumer-Driven Contract tests (CDC tests)_ implements the contract at a
+- _Consumer-Driven Contract tests (CDC tests)_ implement the contract at a
   consumer level
+  1. Consuming team writes tests with their expectations
+  2. Consuming team shares tests with the providing team
+  3. Providing team runs CDC tests continuously
+  4. Communications start again when tests are failing
+- CDC tests are a step towards establishing autonomous teams
 
 ## UI tests
 
