@@ -362,6 +362,11 @@ func TestClient(t *testing.T) {
 
 ## Acceptance tests
 
+- Test an application from a user's perspective
+- _Behaviour-Driven Development (BDD)_ helps to focus on user's perspective
+- Given, When, Then
+- Different levels of granularity exist
+
 ## Exploratory testing
 
 ## Terminology
