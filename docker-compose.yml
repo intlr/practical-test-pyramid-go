@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: go run cmd/server/main.go
+    networks:
+      - app
+
+  mysql:
+    container_name: mysql
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app
+    command: mysqld --sql_mode="NO_ENGINE_SUBSTITUTION" --lower_case_table_names=0 --skip-innodb-adaptive-hash-index
+    volumes:
+    - mysql-data:/var/lib/mysql:cached
+    ports:
+    - "3306:3306"
+    networks:
+    - app
+
+volumes:
+  mysql-data:
+
+networks:
+  app:
+    name: service
