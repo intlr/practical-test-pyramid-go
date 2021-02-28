@@ -13,9 +13,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/alr-lab/ptp/internal/dbtesting"
-	"github.com/alr-lab/ptp/service"
-	"github.com/alr-lab/ptp/store"
+	"github.com/alr-lab/practical-test-pyramid-go/internal/dbtesting"
+	"github.com/alr-lab/practical-test-pyramid-go/service"
+	"github.com/alr-lab/practical-test-pyramid-go/store"
 )
 
 const email = "fake"

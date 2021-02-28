@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/alr-lab/ptp/internal/dbtesting"
-	"github.com/alr-lab/ptp/store"
+	"github.com/alr-lab/practical-test-pyramid-go/internal/dbtesting"
+	"github.com/alr-lab/practical-test-pyramid-go/store"
 )
 
 func TestStore(t *testing.T) {

@@ -3,7 +3,7 @@ package extapi_test
 import (
 	"testing"
 
-	"github.com/alr-lab/ptp/extapi"
+	"github.com/alr-lab/practical-test-pyramid-go/extapi"
 )
 
 const want = "Hello, world!"
