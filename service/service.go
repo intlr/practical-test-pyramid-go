@@ -5,6 +5,8 @@
 // https://github.com/alr-lab/test-double-go
 package service
 
+import "context"
+
 type (
 	// Service describes a service
 	Service struct {
@@ -13,7 +15,7 @@ type (
 
 	// Store defines a contract for a datastore
 	Store interface {
-		GetCustomerEmail(id int) string
+		GetCustomerEmail(ctx context.Context, id int) string
 	}
 )
 
@@ -23,6 +25,6 @@ func New(store Store) Service {
 }
 
 // Get returns a specific customer email
-func (s Service) Get() string {
-	return s.store.GetCustomerEmail(42)
+func (s Service) Get(ctx context.Context) string {
+	return s.store.GetCustomerEmail(ctx, 42)
 }

@@ -9,6 +9,7 @@
 package service_test
 
 import (
+	"context"
 	"testing"
 
 	"github.com/alr-lab/ptp/service"
@@ -18,16 +19,17 @@ const email = "fake"
 
 type StubStore struct{}
 
-func (s StubStore) GetCustomerEmail(id int) string {
+func (s StubStore) GetCustomerEmail(_ context.Context, _ int) string {
 	return email
 }
 
 func TestService(t *testing.T) {
 	// Arrange
 	serv := service.New(StubStore{})
+	ctx := context.Background()
 
 	// Act
-	got := serv.Get()
+	got := serv.Get(ctx)
 
 	// Assert
 	if got != email {
