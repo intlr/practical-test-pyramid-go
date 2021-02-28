@@ -18,6 +18,14 @@ Personal notes on [the article Ham Vocke wrote](https://martinfowler.com/article
 - Arrange, Act, Assert
 
 ```go
+// Simple unit test
+//
+// Part of the Test Double repository I also published
+// https://github.com/alr-lab/test-double-go
+//
+// The System Under Test is the ``Service'' object, and both the public
+// interfaces ``New'' and ``Get'' are tested. It is considered a solitary
+// unit test as we are doubling the datastore.
 package main
 
 import (
@@ -34,10 +42,14 @@ func (s StubStore) GetCustomerEmail(id int) string {
 	return email
 }
 
-func TestService_Get(t *testing.T) {
+func TestService(t *testing.T) {
+	// Arrange
 	serv := service.New(StubStore{})
 
+	// Act
 	got := serv.Get()
+
+	// Assert
 	if got != email {
 		t.Fatalf("got %q, want %q", got, email)
 	}
