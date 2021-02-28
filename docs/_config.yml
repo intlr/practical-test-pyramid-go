@@ -2,7 +2,7 @@
 title: Pratical Test Pyramid
 description: Personal notes on the article Ham Vocke wrote
 url: "https://alr-lab.github.io"
-baseurl: "/ptp"
+baseurl: "/practical-test-pyramid-go"
 source: .
 destination: _site
 timezone: Europe/Berlin
