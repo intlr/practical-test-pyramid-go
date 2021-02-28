@@ -18,6 +18,37 @@ Personal notes on [the article Ham Vocke wrote](https://martinfowler.com/article
 - Arrange, Act, Assert
 
 ```go
+// Package service provides a simple service on which we can experiment
+// tests
+//
+// Part of the Test Double repository I also published
+// https://github.com/alr-lab/test-double-go
+package service
+
+type (
+	// Service describes a service
+	Service struct {
+		store Store
+	}
+
+	// Store defines a contract for a datastore
+	Store interface {
+		GetCustomerEmail(id int) string
+	}
+)
+
+// New returns a new service
+func New(store Store) Service {
+	return Service{store: store}
+}
+
+// Get returns a specific customer email
+func (s Service) Get() string {
+	return s.store.GetCustomerEmail(42)
+}
+```
+
+```go
 // Simple unit test
 //
 // Part of the Test Double repository I also published
@@ -26,7 +57,7 @@ Personal notes on [the article Ham Vocke wrote](https://martinfowler.com/article
 // The System Under Test is the ``Service'' object, and both the public
 // interfaces ``New'' and ``Get'' are tested. It is considered a solitary
 // unit test as we are doubling the datastore.
-package main
+package service_test
 
 import (
 	"testing"
