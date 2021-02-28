@@ -377,6 +377,16 @@ func TestClient(t *testing.T) {
 - Aim to reduce end-to-end tests to minimum
 
 ```go
+package dbtesting
+
+import (
+	"database/sql"
+	"testing"
+
+	_ "github.com/go-sql-driver/mysql"
+	"gopkg.in/testfixtures.v2"
+)
+
 func DatabaseHelper(t *testing.T, fixtureDir string) *sql.DB {
 	t.Helper()
 
