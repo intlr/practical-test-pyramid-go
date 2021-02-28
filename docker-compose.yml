@@ -26,6 +26,17 @@ services:
     networks:
     - app
 
+  mockapi:
+    container_name: mockapi
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.mockapi
+    command: ./mockapi
+    ports:
+    - "8081:8081"
+    networks:
+      - app
+
 volumes:
   mysql-data:
 
