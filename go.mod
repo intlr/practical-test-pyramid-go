@@ -1,4 +1,4 @@
-module github.com/alr-lab/ptp
+module github.com/alr-lab/practical-test-pyramid-go
 
 go 1.16
 

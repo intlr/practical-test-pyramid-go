@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     command: go run cmd/server/main.go
     volumes:
-      - .:/go/src/github.com/alr-lab/ptp
+      - .:/go/src/github.com/alr-lab/practical-test-pyramid-go
     networks:
       - app
 

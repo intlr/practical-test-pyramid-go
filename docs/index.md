@@ -198,8 +198,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/alr-lab/ptp/internal/dbtesting"
-	"github.com/alr-lab/ptp/store"
+	"github.com/alr-lab/practical-test-pyramid-go/internal/dbtesting"
+	"github.com/alr-lab/practical-test-pyramid-go/store"
 )
 
 func TestStore(t *testing.T) {
@@ -319,7 +319,7 @@ package extapi_test
 import (
 	"testing"
 
-	"github.com/alr-lab/ptp/extapi"
+	"github.com/alr-lab/practical-test-pyramid-go/extapi"
 )
 
 const want = "Hello, world!"
@@ -421,9 +421,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/alr-lab/ptp/internal/dbtesting"
-	"github.com/alr-lab/ptp/service"
-	"github.com/alr-lab/ptp/store"
+	"github.com/alr-lab/practical-test-pyramid-go/internal/dbtesting"
+	"github.com/alr-lab/practical-test-pyramid-go/service"
+	"github.com/alr-lab/practical-test-pyramid-go/store"
 )
 
 func TestService_fixtures(t *testing.T) {
