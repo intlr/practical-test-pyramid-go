@@ -107,6 +107,94 @@ func TestService(t *testing.T) {
   4. Validate expectations
 - Integration tests are slower than unit-tests doubling integrations
 
+```go
+package dbtesting
+
+import (
+	"database/sql"
+	"testing"
+
+	_ "github.com/go-sql-driver/mysql"
+)
+
+func DatabaseHelper(t *testing.T) *sql.DB {
+	t.Helper()
+
+	// Open MySQL connection and fill database with testing data...
+
+	return conn
+}
+```
+
+```go
+package store
+
+import (
+	"context"
+	"database/sql"
+	"fmt"
+)
+
+type Store struct{
+	conn *sql.DB
+}
+
+func (st *Store) SetConn(conn *sql.DB) {
+	st.conn = conn
+}
+
+func (s Store) GetCustomerEmail(ctx context.Context, id int) (string, error) {
+	query := `SELECT email FROM Customers WHERE id = ?`
+
+	args := []interface{}{id}
+	res, err := s.conn.QueryContext(ctx, query, args...)
+	if err != nil {
+		return "", fmt.Errorf("unable to query database, err = %s", err)
+	}
+	defer func() { _ = res.Close() }()
+
+	email := ""
+	if res.Next() {
+		if err := res.Scan(&email); err != nil {
+			return email, fmt.Errorf("unable to parse customer email, err = %s", err)
+		}
+	}
+
+	return email, nil
+}
+```
+
+```go
+package store_test
+
+import (
+	"context"
+	"testing"
+
+	"github.com/alr-lab/ptp/internal/dbtesting"
+	"github.com/alr-lab/ptp/store"
+)
+
+func TestStore(t *testing.T) {
+	want := "fake"
+
+	conn := dbtesting.DatabaseHelper(t)
+	defer func(){ _ = conn.Close() }()
+
+	st := &store.Store{}
+	st.SetConn(conn)
+
+	got, err := st.GetCustomerEmail(context.Background(), 42)
+	if err != nil {
+		t.Fatalf("Unable to get customer email, err = %s", err)
+	}
+
+	if got != want {
+		t.Fatalf("got %q, want %q", got, want)
+	}
+}
+```
+
 ## Contract tests
 
 ## UI tests
