@@ -105,6 +105,7 @@ func TestService(t *testing.T) {
   2. Start instance of the API
   3. Interact with the API
   4. Validate expectations
+- Integration tests are slower than unit-tests doubling integrations
 
 ## Contract tests
 
