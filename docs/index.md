@@ -374,9 +374,13 @@ func TestClient(t *testing.T) {
 - Use destructive mindset
 - Document for later
 
-## Terminology
-
 ## Deployment pipeline
+
+- Automated pipeline using _Continuous Integration (CI)_ or _Continuous
+  Delivery (CD)_ will provide gradual confidence the application is ready
+  to be deployed to production
+- A good pipeline breaks as early as possible
+- Fast tests early, slow tests later
 
 ## Test duplication
 
