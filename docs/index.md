@@ -5,7 +5,7 @@ permalink: /
 > subject and interpretation to a Golang application &mdash; Alexandre Le
 > Roy
 
-The [Practical Test Pyramid in Golang][ptp-go] repository hosts all the
+The [Practical Test Pyramid with Go][ptp-go] repository hosts all the
 examples put together to describe a microservice application. It also
 provides the source code for this Github Page.
 
