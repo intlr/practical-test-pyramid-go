@@ -6,19 +6,24 @@ import (
 	"fmt"
 )
 
+// Store describes a datastore object
 type Store struct {
 	conn *sql.DB
 }
 
-func (st *Store) SetConn(conn *sql.DB) {
+// SetConn attaches the MySQL connection to the store
+func (st *Store) SetConn(conn *sql.DB) *Store {
 	st.conn = conn
+	return st
 }
 
-func (s Store) GetCustomerEmail(ctx context.Context, id int) (string, error) {
+// GetCustomerEmail returns a customer email from the datastore given a
+// customer identifier
+func (st *Store) GetCustomerEmail(ctx context.Context, id int) (string, error) {
 	query := `SELECT email FROM Customers WHERE id = ?`
 
 	args := []interface{}{id}
-	res, err := s.conn.QueryContext(ctx, query, args...)
+	res, err := st.conn.QueryContext(ctx, query, args...)
 	if err != nil {
 		return "", fmt.Errorf("unable to query database, err = %s", err)
 	}
