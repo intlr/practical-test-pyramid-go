@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql" // needed to use MySQL
 	"gopkg.in/testfixtures.v2"
 )
 
@@ -20,6 +20,8 @@ const (
 	password = "root"
 )
 
+// DatabaseHelper provides a connection to a datastore with the application
+// schema and some fixtures is passed as an argument
 func DatabaseHelper(t *testing.T, fixtureDir string) *sql.DB {
 	t.Helper()
 
