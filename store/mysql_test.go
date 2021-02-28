@@ -10,7 +10,7 @@ import (
 
 func TestStore(t *testing.T) {
 	// Arrange
-	conn := dbtesting.DatabaseHelper(t)
+	conn := dbtesting.DatabaseHelper(t, "")
 	defer func() { _ = conn.Close() }()
 	st := &store.Store{}
 	st.SetConn(conn)

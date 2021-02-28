@@ -10,6 +10,7 @@ import (
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
+	"gopkg.in/testfixtures.v2"
 )
 
 const (
@@ -19,7 +20,7 @@ const (
 	password = "root"
 )
 
-func DatabaseHelper(t *testing.T) *sql.DB {
+func DatabaseHelper(t *testing.T, fixtureDir string) *sql.DB {
 	t.Helper()
 
 	dsn := fmt.Sprintf(
@@ -57,6 +58,17 @@ func DatabaseHelper(t *testing.T) *sql.DB {
 
 	if _, err := conn.Exec(string(skeleton)); err != nil {
 		t.Fatalf("Unable to bootstrap database, err = %s", err)
+	}
+
+	if fixtureDir != "" {
+		fixtures, err := testfixtures.NewFolder(conn, &testfixtures.MySQL{}, fixtureDir)
+		if err != nil {
+			t.Fatalf("Unable to create fixtures from fixture directory, err = %s", err)
+		}
+
+		if err := fixtures.Load(); err != nil {
+			t.Fatalf("Unable to load fixtures, err = %s", err)
+		}
 	}
 
 	return conn
