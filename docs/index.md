@@ -400,6 +400,13 @@ func TestClient(t *testing.T) {
 
 ## Test duplication
 
+- Avoid test duplication throughout the different layers of the pyramid
+- Writing and maintaining tests takes time
+- Reading and running tests also takes time
+- Rules of thumb
+  1. If higher-level test detects an errors, a lower-level test is needed
+  2. Push tests as far down as possible
+
 ## Clean test code
 
 [ptp-article]: https://martinfowler.com/articles/practical-test-pyramid.html
