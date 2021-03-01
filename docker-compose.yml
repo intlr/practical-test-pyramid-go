@@ -6,7 +6,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: go run cmd/server/main.go
+      args:
+        bin: server
+        dir: /go/src/github.com/alr-lab/practical-test-pyramid-go
+    command: ./server
     volumes:
       - .:/go/src/github.com/alr-lab/practical-test-pyramid-go
     networks:
