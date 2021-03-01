@@ -10,10 +10,8 @@ services:
         bin: server
         dir: /go/src/github.com/alr-lab/practical-test-pyramid-go
     command: ./server
-    volumes:
-      - .:/go/src/github.com/alr-lab/practical-test-pyramid-go
     networks:
-      - app
+    - app
 
   mysql:
     container_name: mysql
@@ -34,11 +32,14 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile.mockapi
+      args:
+        bin: mockapi
+        dir: /go/src/github.com/alr-lab/practical-test-pyramid-go
     command: ./mockapi
     ports:
     - "8081:8081"
     networks:
-      - app
+    - app
 
 volumes:
   mysql-data:

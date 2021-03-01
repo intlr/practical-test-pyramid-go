@@ -7,7 +7,7 @@ GO ?= go
 all: build
 
 build:
-	$(GO) build -o $(NAME) cmd/server/main.go
+	CGO_ENABLED=0 $(GO) build -o $(NAME) cmd/server/main.go
 
 clean:
 	rm -f $(NAME)

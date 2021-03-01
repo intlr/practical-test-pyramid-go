@@ -1,11 +1,17 @@
 FROM golang:1.16 AS builder
 
-WORKDIR /go/src/github.com/alr-lab/practical-test-pyramid-go/mockapi/
+ARG bin
+ARG dir
 
-COPY . /go/src/github.com/alr-lab/practical-test-pyramid-go/mockapi/
+WORKDIR ${dir}
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o mockapi cmd/mockapi/main.go
+COPY . ${dir}
 
-FROM alpine:latest
+RUN CGO_ENABLED=0 go build -o ${bin} cmd/mockapi/main.go
 
-COPY --from=builder /go/src/github.com/alr-lab/practical-test-pyramid-go/mockapi/mockapi /mockapi
+FROM alpine
+
+ARG bin
+ARG dir
+
+COPY --from=builder ${dir}/${bin} /${bin}
