@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/alr-lab/practical-test-pyramid-go/internal/dbtesting"
-	"github.com/alr-lab/practical-test-pyramid-go/pkg/store"
+	"github.com/alr-lab/practical-test-pyramid-go/pkg/ext/store"
 )
 
 func TestStore(t *testing.T) {

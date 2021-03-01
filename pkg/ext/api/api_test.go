@@ -1,16 +1,16 @@
-package extapi_test
+package api_test
 
 import (
 	"testing"
 
-	"github.com/alr-lab/practical-test-pyramid-go/pkg/extapi"
+	"github.com/alr-lab/practical-test-pyramid-go/pkg/ext/api"
 )
 
 const want = "Hello, world!"
 
 func TestClient(t *testing.T) {
 	// Arrange
-	c := &extapi.Client{Hostname: "http://mockapi:8081"}
+	c := &api.Client{Hostname: "http://mockapi:8081"}
 
 	// Act
 	res, err := c.GetHello()
