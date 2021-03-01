@@ -10,6 +10,8 @@ services:
         bin: server
         dir: /go/src/github.com/alr-lab/practical-test-pyramid-go
     command: ./server
+    ports:
+    - "8080:8080"
     networks:
     - app
 

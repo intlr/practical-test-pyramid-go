@@ -1,4 +1,4 @@
-package extapi
+package api
 
 import (
 	"encoding/json"
@@ -24,7 +24,7 @@ type (
 func (c Client) GetHello() (*HelloResponse, error) {
 	res, err := http.Get(fmt.Sprintf("%s/hello", c.Hostname))
 	if err != nil {
-		return nil, fmt.Errorf("unable to get extapi hello response, err = %s", err)
+		return nil, fmt.Errorf("unable to get external API hello response, err = %s", err)
 	}
 	defer res.Body.Close()
 

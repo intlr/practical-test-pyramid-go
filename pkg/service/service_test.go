@@ -14,8 +14,8 @@ import (
 	"testing"
 
 	"github.com/alr-lab/practical-test-pyramid-go/internal/dbtesting"
+	"github.com/alr-lab/practical-test-pyramid-go/pkg/ext/store"
 	"github.com/alr-lab/practical-test-pyramid-go/pkg/service"
-	"github.com/alr-lab/practical-test-pyramid-go/pkg/store"
 )
 
 const email = "fake"
