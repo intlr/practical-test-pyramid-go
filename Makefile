@@ -1,4 +1,4 @@
-NAME = a.out
+NAME ?= server
 
 GO ?= go
 
@@ -7,12 +7,12 @@ GO ?= go
 all: build
 
 build:
-	CGO_ENABLED=0 GOOS=linux $(GO) build -o $(NAME) cmd/server/main.go
+	$(GO) build -o $(NAME) cmd/server/main.go
 
 clean:
 	rm -f $(NAME)
 
 test:
-	$(GO) test -v ./...
+	$(GO) test -v -p=1 ./...
 
 re: clean all

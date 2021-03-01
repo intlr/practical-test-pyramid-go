@@ -1,7 +1,11 @@
-FROM golang:1.16
+FROM golang:1.16-alpine AS builder
 
-WORKDIR /go/src/github.com/alr-lab/practical-test-pyramid-go
+ARG bin
+ARG dir
 
-COPY . /go/src/github.com/alr-lab/practical-test-pyramid-go
+WORKDIR $dir
 
-RUN apt-get update && apt-get install --yes make && make
+COPY . $dir
+
+RUN apk update && apk add --update alpine-sdk
+RUN make NAME=${bin}
