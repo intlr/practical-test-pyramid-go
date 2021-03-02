@@ -251,7 +251,8 @@ func (st *Store) GetCustomerEmail(ctx context.Context, id int) (string, error) {
 }
 ```
 
-Using `docker-compose`, we spin up a MySQL database.
+Using `docker-compose`, we [spin up a MySQL database][docker-compose-file].
+We are now able to test the integration.
 
 ```go
 package store_test
@@ -301,20 +302,29 @@ func TestStore(t *testing.T) {
 }
 ```
 
+Notice the _Arrange, Act, Assert_ pattern? The _Arrange_ step is bigger but
+it prepares more edge cases than unit-tests. By doing so, we ensure our
+integration will fail properly when needed.
+
 ### External API integration
 
-- API integration test
-  1. Start application
-  2. Start instance of the API
-  3. Interact with the API
-  4. Validate expectations
+Similar to database integration tests, most external API integration tests
+consist of specific tests.
+
+- Start the application
+- Start the instance of the API
+- Interact with the API
+- Validate the expectations
+
+As we don't have an instance of the external API, we are creating a mock,
+returning the response we are expecting.
 
 ```go
 // The ``mockapi'' application is a simple server acting as a replacement
 // for an external API.
 //
 // With a ``docker-compose'' file we can start the server and allow our
-// application to test its integration with a production-ready instance.
+// application to test its production-integration.
 package main
 
 import (
@@ -324,6 +334,7 @@ import (
 )
 
 func main() {
+	log.Print("Starting server")
 	http.HandleFunc("/hello", func(w http.ResponseWriter, _ *http.Request) {
 		log.Print("Serving request")
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -336,8 +347,12 @@ func main() {
 }
 ```
 
+Let's look at the implementation of the external API integration. We need
+a mechanism to call the external API, request a specific endpoint, receive
+a response, parse this response, and output something from it.
+
 ```go
-package extapi
+package api
 
 import (
 	"encoding/json"
@@ -381,8 +396,11 @@ func (c Client) GetHello() (*HelloResponse, error) {
 }
 ```
 
+Now, testing is easier. We create a basic client that will hit the mocked
+API and test the integration as we would test a database integration.
+
 ```go
-package extapi_test
+package api_test
 
 import (
 	"testing"
@@ -570,6 +588,7 @@ func TestService_fixtures(t *testing.T) {
 2. Test one condition per test
 3. Arrange, Act, Assert
 
+[docker-compose-file]: https://github.com/alr-lab/practical-test-pyramid-go/blob/master/docker-compose.yml
 [ptp-article]: https://martinfowler.com/articles/practical-test-pyramid.html
 [ptp-go]: https://github.com/alr-lab/practical-test-pyramid-go
 [test-double-go]: https://github.com/alr-lab/test-double-go
