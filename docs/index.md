@@ -269,8 +269,7 @@ func TestStore(t *testing.T) {
 	// Arrange
 	conn := dbtesting.DatabaseHelper(t)
 	defer func() { _ = conn.Close() }()
-	st := &store.Store{}
-	st.SetConn(conn)
+	st := (&store.Store{}).SetConn(conn)
 	tt := map[string]struct {
 		id   int
 		want string
@@ -535,8 +534,7 @@ func TestService_fixtures(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			conn := dbtesting.DatabaseHelper(t, fmt.Sprintf("fixtures/%s", tc.fixtures))
 			defer conn.Close()
-			st := &store.Store{}
-			st.SetConn(conn)
+			st := (&store.Store{}).SetConn(conn)
 			serv := service.New(st)
 
 			// Act
