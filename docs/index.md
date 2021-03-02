@@ -428,22 +428,23 @@ func TestClient(t *testing.T) {
 
 ## Contract tests
 
-- Apply to a microservice context
-- Consumer/Provider
-- Subscriber/Publisher (event-driven communications)
-- Specify interfaces between services where consumer and provider are
-  spread
-- Contract tests ensure implementations on consumer and provider fulfill
-  contract
-- Act as regression test suite
-- Observe deviations early
-- _Consumer-Driven Contract tests (CDC tests)_ implement the contract at a
-  consumer level
-  1. Consuming team writes tests with their expectations
-  2. Consuming team shares tests with the providing team
-  3. Providing team runs CDC tests continuously
-  4. Communications start again when tests are failing
-- CDC tests are a step towards establishing autonomous teams
+Contract tests applies to a microservice context, where two microservices
+are communicating with each other. In that scenario, there is a _Consumer_
+and a _Provider_. In case of event-driven communications, we call the
+former _Subscriber_ and the latter _Publisher_.
+
+The contract tests ensure both implementations fulfill a contract
+previously defined. It acts as a regression test suite and allow to observe
+deviations early.
+
+When this contract is provided by the consumer, we call the tests
+_Consumer-Driven Contract tests (CDC tests)_. Such a mechanism is
+implemented by following those steps.
+
+1. The consuming team writes tests with its expectations
+2. The consuming team shares tests with the providing team
+3. The providing team runs CDC tests continuously
+4. Communications start again when tests are failing
 
 ## UI tests
 
