@@ -148,6 +148,9 @@ scenario but it allows us to focus on experimenting with unit tests.
 Notice the Arrange, Act, Assert pattern. This will be repeated all over the
 pyramid.
 
+I cover the types of double in Golang with the [Test Double with
+Go][test-double-go] repository
+
 ## Integration tests
 
 - Test integrations with other parts such as database, filesystems, and
@@ -540,3 +543,4 @@ func TestService_fixtures(t *testing.T) {
 
 [ptp-article]: https://martinfowler.com/articles/practical-test-pyramid.html
 [ptp-go]: https://github.com/alr-lab/practical-test-pyramid-go
+[test-double-go]: https://github.com/alr-lab/test-double-go
