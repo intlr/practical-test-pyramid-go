@@ -145,33 +145,39 @@ datastore actually handles errors and will return an empty string in case
 something goes bad. This is not what one may expect for a production
 scenario but it allows us to focus on experimenting with unit tests.
 
-Notice the Arrange, Act, Assert pattern. This will be repeated all over the
-pyramid.
+Notice the _Arrange, Act, Assert_ pattern. This will be repeated all over
+the pyramid.
 
 I cover the types of double in Golang with the [Test Double with
 Go][test-double-go] repository
 
 ## Integration tests
 
-- Test integrations with other parts such as database, filesystems, and
-  network
-- Also run the components we are integrating
-- Different kind of integration tests
-  - Test through the entire stack
-  - Test integrations one by one, doubling the others if needed
-- Database integration test
-  1. Start database
-  2. Connect application to database
-  3. Interact with database
-  4. Validate expectations
-- API integration test
-  1. Start application
-  2. Start instance of the API
-  3. Interact with the API
-  4. Validate expectations
-- Integration tests are slower than unit-tests doubling integrations
+Integration tests ensure integrations with other parts of the system are
+working. Those parts can be databases, filesystems, networks... In order to
+do so, we may need to run those components we are integrating.
+
+There are two types of integration tests: one where we test through the
+entire stack, and one we test the integrations one by one, doubling the
+others if needed.
+
+Because we test the application with the actual integration and not a
+double, those tests are slower compared to the unit tests. That is why
+those tests should be less common.
 
 ### Database integration
+
+Most of database integration tests consist of the following steps.
+
+1. Start the database
+2. Connect the application to the database
+3. Interact with the database
+4. Validate the expectations
+
+Before to get into the implementation of such an integration, let's have a
+look at the test helper which allows us to create database connections.
+This will be extended later to include fixtures, but for now, we need a way
+to simply communicate with a datastore.
 
 ```go
 package dbtesting
@@ -180,17 +186,25 @@ import (
 	"database/sql"
 	"testing"
 
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql" // required to use the MySQL driver
 )
 
+// DatabaseHelper is a test helper. It doesn't start with the `Test`
+// prefix, thus will not be executed by the Go runtime when testing the
+// application. However, we will call this function from a test function,
+// passing the test argument to be able to fail the test at any point.
 func DatabaseHelper(t *testing.T) *sql.DB {
 	t.Helper()
 
-	// Open MySQL connection and fill database with testing data...
+	// Open MySQL connection and fill database with application schema...
+	// https://github.com/alr-lab/practical-test-pyramid-go/blob/master/internal/dbtesting/mysql.go
 
 	return conn
 }
 ```
+
+Now let's dive into the implementation of the database integration. We need
+an object on which we can query the database and get the data we need.
 
 ```go
 package store
@@ -201,19 +215,26 @@ import (
 	"fmt"
 )
 
+// Store describes a datastore
 type Store struct{
 	conn *sql.DB
 }
 
-func (st *Store) SetConn(conn *sql.DB) {
+// SetConn sets the database connection to the datastore object
+func (st *Store) SetConn(conn *sql.DB) *Store {
 	st.conn = conn
+	return st
 }
 
-func (s Store) GetCustomerEmail(ctx context.Context, id int) (string, error) {
+// GetCustomerEmail returns the customer email address.
+//
+// Notice this method was extended to also accept a context as one
+// parameter, and to return an error.
+func (st *Store) GetCustomerEmail(ctx context.Context, id int) (string, error) {
 	query := `SELECT email FROM Customers WHERE id = ?`
 
 	args := []interface{}{id}
-	res, err := s.conn.QueryContext(ctx, query, args...)
+	res, err := st.conn.QueryContext(ctx, query, args...)
 	if err != nil {
 		return "", fmt.Errorf("unable to query database, err = %s", err)
 	}
@@ -229,6 +250,8 @@ func (s Store) GetCustomerEmail(ctx context.Context, id int) (string, error) {
 	return email, nil
 }
 ```
+
+Using `docker-compose`, we spin up a MySQL database.
 
 ```go
 package store_test
@@ -279,6 +302,12 @@ func TestStore(t *testing.T) {
 ```
 
 ### External API integration
+
+- API integration test
+  1. Start application
+  2. Start instance of the API
+  3. Interact with the API
+  4. Validate expectations
 
 ```go
 // The ``mockapi'' application is a simple server acting as a replacement
