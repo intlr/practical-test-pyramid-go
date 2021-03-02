@@ -105,7 +105,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/alr-lab/test-double-go/service"
+	"github.com/alr-lab/test-double-go/pkg/service"
 )
 
 const email = "fake"
@@ -262,7 +262,7 @@ import (
 	"testing"
 
 	"github.com/alr-lab/practical-test-pyramid-go/internal/dbtesting"
-	"github.com/alr-lab/practical-test-pyramid-go/store"
+	"github.com/alr-lab/practical-test-pyramid-go/pkg/ext/store"
 )
 
 func TestStore(t *testing.T) {
@@ -377,7 +377,7 @@ type (
 func (c Client) GetHello() (*HelloResponse, error) {
 	res, err := http.Get(fmt.Sprintf("%s/hello", c.Hostname))
 	if err != nil {
-		return nil, fmt.Errorf("unable to get extapi hello response, err = %s", err)
+		return nil, fmt.Errorf("unable to get external API hello response, err = %s", err)
 	}
 	defer res.Body.Close()
 
@@ -404,14 +404,14 @@ package api_test
 import (
 	"testing"
 
-	"github.com/alr-lab/practical-test-pyramid-go/extapi"
+	"github.com/alr-lab/practical-test-pyramid-go/pkg/ext/api"
 )
 
 const want = "Hello, world!"
 
 func TestClient(t *testing.T) {
 	// Arrange
-	c := &extapi.Client{Hostname: "http://mockapi:8081"}
+	c := &api.Client{Hostname: "http://mockapi:8081"}
 
 	// Act
 	res, err := c.GetHello()
@@ -507,8 +507,8 @@ import (
 	"testing"
 
 	"github.com/alr-lab/practical-test-pyramid-go/internal/dbtesting"
-	"github.com/alr-lab/practical-test-pyramid-go/service"
-	"github.com/alr-lab/practical-test-pyramid-go/store"
+	"github.com/alr-lab/practical-test-pyramid-go/pkg/ext/store"
+	"github.com/alr-lab/practical-test-pyramid-go/pkg/service"
 )
 
 func TestService_fixtures(t *testing.T) {
