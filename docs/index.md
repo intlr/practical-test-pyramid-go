@@ -26,41 +26,58 @@ provides the source code for this Github Page.
 
 ## Unit tests
 
-- Foundation of the test suite
-- Make sure a _System Under Test (SUT)_ works as intended
-- Unit tests are fast and so more common that other types of tests
-- Solitary unit tests are tests doubling all collaborators
-- Sociable unit tests are tests allowing communications with real
-  collaborators
-- _Test-Driven Development (TDD)_ lets unit tests guide development
-- One test class per production class rule of thumb
+Unit tests consist of the foundation of the test suite. It ensures the
+_System Under Test (SUT)_ works as intended. Unit tests are fast, therefor
+they should prevail other types of tests.
+
+There are two types of unit tests: the _Solitary unit tests_, and the
+_Sociable unit tests_. The former describe tests doubling all
+collaborators, while the latter describe tests allowing communications with
+the real collaborators.
+
+The _Test-Driven Development (TDD)_ lets unit tests guide the development.
+
+Ham Vocke also provides rules of thumb for writing unit tests.
+
+- Write one test class per production class
 - Unit test at least public interfaces
-- Includes happy and edge cases, without being too tied to implementation
+- Include happy cases and edge cases, without being too tied to implementation
 - Arrange, Act, Assert
 
+### Implementation
+
+Let's dig into a simple implementation we will unit test. I decided to
+implement an _application service_ which relies on a datastore to fetch
+customer data.
+
+Notice we do not integrate the datastore. At this level of the pyramid
+there is no need to be specific. The decision to use a specific datastore
+can be done later. Therefor we are only providing a contract for future
+implementations.
+
 ```go
-// Package service provides a simple service on which we can experiment
-// tests
-//
-// Part of the Test Double repository I also published
-// https://github.com/alr-lab/test-double-go
+// The ``service'' package provides a basic service with a dependency on a
+// datastore. The application uses this service to handle requests and
+// return a simple response.
 package service
 
 import "context"
 
 type (
-	// Service describes a service
+	// Service describes the application service
 	Service struct {
 		store Store
 	}
 
 	// Store defines a contract for a datastore
 	Store interface {
+		// GetCustomerEmail returns a customer email address from a
+		// customer identifier
 		GetCustomerEmail(ctx context.Context, id int) string
 	}
 )
 
-// New returns a new service
+// New returns a new application service
 func New(store Store) Service {
 	return Service{store: store}
 }
@@ -71,15 +88,17 @@ func (s Service) Get(ctx context.Context) string {
 }
 ```
 
+### Test
+
+Because we didn't integrated the datastore yet, we used a contract which is
+allowing us to inject any kind of datastore to the service.
+
+When testing the service, this allows us to actually provide a stub. At
+this level of test we don't care about testing the integration with the
+datastore. We only care that the service is working as intended, that it
+returns the correct value.
+
 ```go
-// Simple unit test
-//
-// Part of the Test Double repository I also published
-// https://github.com/alr-lab/test-double-go
-//
-// The System Under Test is the ``Service'' object, and both the public
-// interfaces ``New'' and ``Get'' are tested. It is considered a solitary
-// unit test as we are doubling the datastore.
 package service_test
 
 import (
@@ -111,6 +130,23 @@ func TestService(t *testing.T) {
 	}
 }
 ```
+
+Using external tests we force ourselves to write tests only for public
+functions. This is done by using another package than the actual
+implementation - `service_test` instead of `service`.
+
+We provide a stub to the service as the datastore and we make sure the
+service returns the valid data. Because we doubled all dependencies of the
+application service, this unit test can be considered as a _Solitary unit
+test_.
+
+This simple implementation only have a happy path. This is because the
+datastore actually handles errors and will return an empty string in case
+something goes bad. This is not what one may expect for a production
+scenario but it allows us to focus on experimenting with unit tests.
+
+Notice the Arrange, Act, Assert pattern. This will be repeated all over the
+pyramid.
 
 ## Integration tests
 
