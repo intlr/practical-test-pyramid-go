@@ -311,10 +311,10 @@ integration will fail properly when needed.
 Similar to database integration tests, most external API integration tests
 consist of specific tests.
 
-- Start the application
-- Start the instance of the API
-- Interact with the API
-- Validate the expectations
+1. Start the application
+2. Start the instance of the API
+3. Interact with the API
+4. Validate the expectations
 
 As we don't have an instance of the external API, we are creating a mock,
 returning the response we are expecting.
