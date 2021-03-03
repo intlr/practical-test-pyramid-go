@@ -451,7 +451,7 @@ implemented by following those steps.
 UI tests are more than testing web browser interfaces. Think of REST API,
 CLI... they all have interfaces.
 
-UI tests is about testing the user interface is working as expected. But
+UI tests are about testing the user interface is working as expected. But
 testing UI can be done in a modular way, as testing JavaScript code with
 the backend being stubbed.
 
@@ -506,11 +506,11 @@ func Test(t *testing.T) {
 
 ## End-to-end tests
 
-- End-to-end tests test the fully-integrated system
-- May fail for unexpected reasons
-- Require maintenance
-- Run slowly
-- Aim to reduce end-to-end tests to minimum
+End-to-end tests are about testing the fully-integrated system.
+
+Those tests are heavy, they may fail for unexpected reasons such as
+timeouts... They require maintenance and run slowly. This is why one would
+aim to reduce end-to-end tests to the minimum.
 
 ```go
 package dbtesting
