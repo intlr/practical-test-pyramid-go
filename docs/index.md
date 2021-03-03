@@ -663,7 +663,36 @@ Integration.
 But this is not over. As Ham Vocke wrote, "A good pipeline breaks as early
 as possible". That is why we splitted our tests based on the pyramid we
 described in this document. We used build tags to allow to run tests
-separately. Then, we described steps to be run for each test type.
+separately.
+
+```go
+// +build integration
+
+package main
+```
+
+Then we used steps to call the test types one by one, failing one will skip
+the others and fail the build.
+
+```yml
+name: Automated tests
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: docker-compose up -d --build
+      - name: Unit tests
+        run: docker exec -i app make test-unit
+      - name: Integration tests
+        run: docker exec -i app make test-integration
+      - name: UI tests
+        run: docker exec -i app make test-ui
+      - name: End-to-end tests
+        run: docker exec -i app make test-endtoend
+```
 
 ## Test duplication
 
