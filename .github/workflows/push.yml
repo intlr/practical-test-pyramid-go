@@ -7,5 +7,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build
         run: docker-compose up -d --build
-      - name: Test
-        run: docker exec -it app make test-unit
+      - name: Unit tests
+        run: docker exec -i app make test-unit
+      - name: Integration tests
+        run: docker exec -i app make test-integration
+      - name: UI tests
+        run: docker exec -i app make test-ui
+      - name: End-to-end tests
+        run: docker exec -i app make test-endtoend
