@@ -652,11 +652,18 @@ may discover during the process while not loosing focus.
 
 ## Deployment pipeline
 
-- Automated pipeline using _Continuous Integration (CI)_ or _Continuous
-  Delivery (CD)_ will provide gradual confidence the application is ready
-  to be deployed to production
-- A good pipeline breaks as early as possible
-- Fast tests early, slow tests later
+Automated pipeline with _Continuous Integration (CI)_ or _Continuous
+Delivery (CD)_ provide gradual confidence to deploy to production.
+
+For our application, we use GitHub actions to automatically test the
+application on any push. By protecting the branch and forcing the tests to
+pass before to be allowed to merge to master, we accomplished Continuous
+Integration.
+
+But this is not over. As Ham Vocke wrote, "A good pipeline breaks as early
+as possible". That is why we splitted our tests based on the pyramid we
+described in this document. We used build tags to allow to run tests
+separately. Then, we described steps to be run for each test type.
 
 ## Test duplication
 
