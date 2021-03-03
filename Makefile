@@ -12,7 +12,7 @@ build:
 clean:
 	rm -f $(NAME)
 
-test-all: test-unit test-integration test-endtoend test-ui
+test: test-unit test-integration test-endtoend test-ui
 
 test-unit:
 	$(GO) test -v -p=1 -tags=unit ./...
