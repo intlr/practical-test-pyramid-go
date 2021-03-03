@@ -618,10 +618,19 @@ func TestService_fixtures(t *testing.T) {
 
 ## Acceptance tests
 
-- Test an application from a user's perspective
-- _Behaviour-Driven Development (BDD)_ helps to focus on user's perspective
-- Given, When, Then
-- Different levels of granularity exist
+Acceptance tests are tests ensuring the application works from a user's
+perspective. Think of the _Given, When, Then_ mnemonic.
+
+* Given a user is connected
+* When a user go to the homepage
+* Then the page should display the username
+
+The _Behaviour-Driven Development (BDD)_ helps to focus on this user's
+perspective.
+
+There are different levels of granularity to describe acceptance tests. You
+may test the user's perspective through the user interface, but you can
+also test a feature works properly before to reach the user interface.
 
 ## Exploratory testing
 
