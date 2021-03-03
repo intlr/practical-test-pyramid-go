@@ -451,7 +451,7 @@ implemented by following those steps.
 UI tests are more than testing web browser interfaces. Think of REST API,
 CLI... they all have interfaces.
 
-UI tests is about testing the user interface is working as expected. But
+UI tests are about testing the user interface is working as expected. But
 testing UI can be done in a modular way, as testing JavaScript code with
 the backend being stubbed.
 
@@ -506,11 +506,15 @@ func Test(t *testing.T) {
 
 ## End-to-end tests
 
-- End-to-end tests test the fully-integrated system
-- May fail for unexpected reasons
-- Require maintenance
-- Run slowly
-- Aim to reduce end-to-end tests to minimum
+End-to-end tests are about testing the fully-integrated system.
+
+Those tests are heavy, they may fail for unexpected reasons such as
+timeouts... They require maintenance and run slowly. This is why one would
+aim to reduce end-to-end tests to the minimum.
+
+Let's dig into implementing an end-to-end test. First, we need a way to get
+a clean version of the database with a specific state of data. This is why
+the DatabaseHelper was updated to accept a fixture directory.
 
 ```go
 package dbtesting
@@ -544,10 +548,22 @@ func DatabaseHelper(t *testing.T, fixtureDir string) *sql.DB {
 }
 ```
 
+Then, we are able to define Yaml fixtures. As an example, `Customers.yaml`
+will allow the DatabaseHelper to request `testfixtures` to fill the
+Customers table with the following data.
+
 ```yaml
 - id: 42
   email: foo
 ```
+
+Then, we test the service, we could go one step further and call the API as
+we did, but it gives us less flexibility in controlling how to setup the
+application.
+
+For each test, we start a fresh database version, setup the service to use
+the database instance, and call the service. We then assert the response is
+what we would expect for the given scenario.
 
 ```go
 package service_test
