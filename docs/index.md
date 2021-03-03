@@ -448,11 +448,14 @@ implemented by following those steps.
 
 ## UI tests
 
-- REST API, CLI, and web interfaces are _User Interfaces (UI)_
-- UI tests test the user interface is working as expected
-- Testing UI can be modular, as testing JavaScript code with backend
-  stubbed
-- Test behaviour, layout, usability... on web interfaces
+UI tests are more than testing web browser interfaces. Think of REST API,
+CLI... they all have interfaces.
+
+UI tests is about testing the user interface is working as expected. But
+testing UI can be done in a modular way, as testing JavaScript code with
+the backend being stubbed.
+
+Think of testing the behaviour, the layout, the usability...
 
 ## End-to-end tests
 
