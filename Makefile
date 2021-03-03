@@ -12,7 +12,18 @@ build:
 clean:
 	rm -f $(NAME)
 
-test:
-	$(GO) test -v -p=1 ./...
+test-all: test-unit test-integration test-endtoend test-ui
+
+test-unit:
+	$(GO) test -v -p=1 -tags=unit ./...
+
+test-integration:
+	$(GO) test -v -p=1 -tags=integration ./...
+
+test-endtoend:
+	$(GO) test -v -p=1 -tags=endtoend ./...
+
+test-ui:
+	$(GO) test -v -p=1 -tags=ui ./...
 
 re: clean all

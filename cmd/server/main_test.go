@@ -1,3 +1,5 @@
+// +build ui
+
 package main_test
 
 import (
