@@ -512,6 +512,10 @@ Those tests are heavy, they may fail for unexpected reasons such as
 timeouts... They require maintenance and run slowly. This is why one would
 aim to reduce end-to-end tests to the minimum.
 
+Let's dig into implementing an end-to-end test. First, we need a way to get
+a clean version of the database with a specific state of data. This is why
+the DatabaseHelper was updated to accept a fixture directory.
+
 ```go
 package dbtesting
 
@@ -544,10 +548,22 @@ func DatabaseHelper(t *testing.T, fixtureDir string) *sql.DB {
 }
 ```
 
+Then, we are able to define Yaml fixtures. As an example, `Customers.yaml`
+will allow the DatabaseHelper to request `testfixtures` to fill the
+Customers table with the following data.
+
 ```yaml
 - id: 42
   email: foo
 ```
+
+Then, we test the service, we could go one step further and call the API as
+we did, but it gives us less flexibility in controlling how to setup the
+application.
+
+For each test, we start a fresh database version, setup the service to use
+the database instance, and call the service. We then assert the response is
+what we would expect for the given scenario.
 
 ```go
 package service_test
