@@ -668,7 +668,7 @@ separately.
 ```go
 // +build integration
 
-package main
+package main_test
 ```
 
 Then we used steps to call the test types one by one, failing one will skip
@@ -696,14 +696,22 @@ jobs:
 
 ## Test duplication
 
-- Avoid test duplication throughout the different layers of the pyramid
-- Writing and maintaining tests takes time
-- Reading and running tests also takes time
-- Rules of thumb
-  1. If higher-level test detects an errors, a lower-level test is needed
-  2. Push tests as far down as possible
+Ham Vocke advice us to avoid test duplication throughout the different
+layers of the pyramid. It does make sense, especially when you consider
+that the higher you are in the test pyramid, the longer it takes to
+actually test things.
+
+He also provides us with rules of thumbs to avoid test duplication.
+
+1. If higher-level test detects an errors, a lower-level test is needed
+2. Push tests as far down as possible
+
+Again, writing and maintaining tests takes time, reading and running tests
+also takes time.
 
 ## Clean test code
+
+Finally, Ham Vocke wrote three rules of thumb to define clean test code.
 
 1. Test code is as important as production code
 2. Test one condition per test
