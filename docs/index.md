@@ -446,6 +446,10 @@ implemented by following those steps.
 3. The providing team runs CDC tests continuously
 4. Communications start again when tests are failing
 
+One popular way to implement contract testing with Go would be to adopt
+Pact in our pipeline. This is a very deep topic and will be covered in
+another article.
+
 ## UI tests
 
 UI tests are more than testing web browser interfaces. Think of REST API,
@@ -632,12 +636,19 @@ There are different levels of granularity to describe acceptance tests. You
 may test the user's perspective through the user interface, but you can
 also test a feature works properly before to reach the user interface.
 
+From a user's perspective, we already proved that our application is able
+to handle requests and respond the way we want. Both the UI test and
+end-to-end test proved that. We can confidently skip this step.
+
 ## Exploratory testing
 
-- Manual testing approach
-- Try to break the application
-- Use destructive mindset
-- Document for later
+Exploratory testing is everything related to manual testing an application.
+Ham Vocked wrote in his article that the best way to reach confidence with
+those tests is to adopt a destructive mindset, to try to break the
+application.
+
+Documenting while testing is a good way to keep records of the things you
+may discover during the process while not loosing focus.
 
 ## Deployment pipeline
 
