@@ -685,13 +685,13 @@ jobs:
       - name: Build
         run: docker-compose up -d --build
       - name: Unit tests
-        run: docker exec -i app make test-unit
+        run: docker exec -i app go test -v -tags=unit ./...
       - name: Integration tests
-        run: docker exec -i app make test-integration
+        run: docker exec -i app go test -v -p=1 -tags=integration ./...
       - name: UI tests
-        run: docker exec -i app make test-ui
+        run: docker exec -i app go test -v -p=1 -tags=ui ./...
       - name: End-to-end tests
-        run: docker exec -i app make test-endtoend
+        run: docker exec -i app go test -v -p=1 -tags=endtoend ./...
 ```
 
 ## Test duplication
