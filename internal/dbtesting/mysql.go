@@ -15,7 +15,7 @@ import (
 
 const (
 	schema   = "app"
-	hostname = "mysql"
+	hostname = "datastore"
 	username = "root"
 	password = "root"
 )
