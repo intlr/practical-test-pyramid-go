@@ -9,6 +9,8 @@ jobs:
         run: docker-compose up -d --build
       - name: Unit tests
         run: docker exec -i app make test-unit
+      - name: Sleep
+        run: sleep 10
       - name: Integration tests
         run: docker exec -i app make test-integration
       - name: UI tests
