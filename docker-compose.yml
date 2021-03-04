@@ -16,7 +16,7 @@ services:
     - app
 
   mysql:
-    container_name: mysql
+    container_name: datastore
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
