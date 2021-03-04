@@ -660,10 +660,10 @@ application on any push. By protecting the branch and forcing the tests to
 pass before to be allowed to merge to master, we accomplished Continuous
 Integration.
 
-But this is not over. As Ham Vocke wrote, "A good pipeline breaks as early
-as possible". That is why we splitted our tests based on the pyramid we
-described in this document. We used build tags to allow to run tests
-separately.
+But this is not over. As Ham Vocke wrote in his own words, a good pipeline
+breaks as early as possible. That is why we splitted our tests based on the
+pyramid we described in this document. We used build tags to allow to run
+tests separately.
 
 ```go
 // +build integration
