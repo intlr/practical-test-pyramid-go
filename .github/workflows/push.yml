@@ -7,10 +7,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build
         run: docker-compose up -d --build
-      - name: Sleep
-        run: sleep 5
       - name: Unit tests
         run: docker exec -i app make test-unit
+      - name: Sleep
+        run: sleep 10
       - name: Integration tests
         run: docker exec -i app make test-integration
       - name: UI tests
