@@ -33,6 +33,7 @@ func TestService_fixtures(t *testing.T) {
 
 	for name, tc := range tt {
 		t.Run(name, func(t *testing.T) {
+			t.Parallel()
 			conn := dbtesting.DatabaseHelper(t, fmt.Sprintf("fixtures/%s", tc.fixtures))
 			defer conn.Close()
 			st := &store.Store{}
