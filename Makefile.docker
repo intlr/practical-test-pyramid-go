@@ -1,0 +1,14 @@
+COMPOSE ?= docker-compose
+
+DOCKER ?= docker
+
+.PHONY: all
+all: build
+
+.PHONY: build
+build:
+	$(COMPOSE) up -d --build
+
+.PHONY: test
+test: build
+	$(DOCKER) exec -i app make test

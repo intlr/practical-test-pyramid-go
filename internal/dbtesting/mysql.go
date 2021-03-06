@@ -1,6 +1,7 @@
 package dbtesting
 
 import (
+	"crypto/rand"
 	"database/sql"
 	"fmt"
 	"io/ioutil"
@@ -14,7 +15,6 @@ import (
 )
 
 const (
-	schema   = "app"
 	hostname = "datastore"
 	username = "root"
 	password = "root"
@@ -24,6 +24,14 @@ const (
 // schema and some fixtures is passed as an argument
 func DatabaseHelper(t *testing.T, fixtureDir string) *sql.DB {
 	t.Helper()
+
+	b := make([]byte, 16)
+	_, err := rand.Read(b)
+	if err != nil {
+		t.Fatalf("Unable to generate uuid")
+	}
+
+	schema := fmt.Sprintf("a_%x_%x_%x_%x_%x", b[0:4], b[4:6], b[6:8], b[8:10], b[10:])
 
 	dsn := fmt.Sprintf(
 		"%s:%s@tcp(%s)/?%s",
