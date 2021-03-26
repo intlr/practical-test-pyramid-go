@@ -9,6 +9,9 @@ services:
       args:
         bin: server
         dir: /go/src/github.com/alr-lab/practical-test-pyramid-go
+    environment:
+      APPLICATION_PORT: '8080'
+      EXTERNAL_API_HOST: 'http://mockapi:8081'
     command: ./server
     ports:
     - "8080:8080"
