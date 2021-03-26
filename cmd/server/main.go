@@ -1,3 +1,14 @@
+/*
+
+The server application acts as a server handling customer requests. The only
+available endpoint so far is the home endpoint, which greats customers. The
+server uses a MySQL data store to access customer emails and fetches a
+greating message from an external API.
+
+This application allows us to explore testing at the different layers of the
+practical test pyramid introduced by Ham Vocke.
+
+*/
 package main
 
 import (
@@ -19,6 +30,14 @@ var (
 )
 
 func main() {
+	if applicationPort == "" {
+		log.Fatal("Missing application port")
+	}
+
+	if externalAPIHostname == "" {
+		log.Fatal("Missing external API hostname")
+	}
+
 	c := &api.Client{Hostname: externalAPIHostname}
 	addr := fmt.Sprintf(":%s", applicationPort)
 

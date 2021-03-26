@@ -8,5 +8,3 @@ CREATE TABLE IF NOT EXISTS `Customers` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-INSERT INTO `Customers` ( `id`, `email` ) VALUES ( 42, "fake" );

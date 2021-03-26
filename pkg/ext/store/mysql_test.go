@@ -4,6 +4,7 @@ package store_test
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	"github.com/alr-lab/practical-test-pyramid-go/internal/dbtesting"
@@ -12,26 +13,30 @@ import (
 
 func TestStore(t *testing.T) {
 	// Arrange
-	conn := dbtesting.DatabaseHelper(t, "")
-	defer func() { _ = conn.Close() }()
-	st := &store.Store{}
-	st.SetConn(conn)
 	tt := map[string]struct {
-		id   int
-		want string
+		id      int
+		want    string
+		fixture string
 	}{
 		"Valid customer identifier will return valid email": {
-			id:   42,
-			want: "fake",
+			id:      42,
+			want:    "fake",
+			fixture: "successful",
 		},
 		"Invalid customer identifier will return empty string": {
-			id:   1337,
-			want: "",
+			id:      1337,
+			want:    "",
+			fixture: "unexisting",
 		},
 	}
 
 	for name, tc := range tt {
 		t.Run(name, func(t *testing.T) {
+			fixtureDir := fmt.Sprintf("testdata/%s", tc.fixture)
+			conn := dbtesting.DatabaseHelper(t, fixtureDir)
+			defer func() { _ = conn.Close() }()
+			st := (&store.Store{}).SetConn(conn)
+
 			// Act
 			got, err := st.GetCustomerEmail(context.Background(), tc.id)
 

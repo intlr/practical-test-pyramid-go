@@ -1,3 +1,5 @@
+// +build unit
+
 package handler_test
 
 import (
@@ -21,7 +23,9 @@ type (
 
 func Test_Home(t *testing.T) {
 	tt := map[string]struct {
-		mock   handler.Client
+		mock interface {
+			GetHello() (*api.HelloResponse, error)
+		}
 		want   string
 		status int
 	}{
