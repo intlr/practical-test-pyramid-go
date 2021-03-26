@@ -8,13 +8,13 @@ import (
 	"github.com/alr-lab/practical-test-pyramid-go/pkg/ext/api"
 )
 
-// Client describes the external API client contract
-type Client interface {
+// describes the external API client contract
+type client interface {
 	GetHello() (*api.HelloResponse, error)
 }
 
 // Home returns the handler function responsible to handle home requests
-func Home(c Client) http.HandlerFunc {
+func Home(c client) http.HandlerFunc {
 	return func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 
