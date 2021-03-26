@@ -10,23 +10,12 @@ import (
 	"github.com/alr-lab/practical-test-pyramid-go/pkg/handler"
 )
 
-const (
-	// describes home endpoint
-	endpointHome = "/"
-
-	// describes the environment variable holding the application port
-	envApplicationPort = "APPLICATION_PORT"
-
-	// describes the environment variable holding the external API hostnam
-	envExternalAPIHostname = "EXTERNAL_API_HOST"
-)
-
 var (
 	// describes the application port
-	applicationPort = os.Getenv(envApplicationPort)
+	applicationPort = os.Getenv("APPLICATION_PORT")
 
 	// describes the external API hostname
-	externalAPIHostname = os.Getenv(envExternalAPIHostname)
+	externalAPIHostname = os.Getenv("EXTERNAL_API_HOST")
 )
 
 func main() {
@@ -42,7 +31,7 @@ func main() {
 func handle(c *api.Client) http.Handler {
 	s := http.NewServeMux()
 
-	s.HandleFunc(endpointHome, handler.HomeHandler(c))
+	s.HandleFunc("/", handler.Home(c))
 
 	return s
 }

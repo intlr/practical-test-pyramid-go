@@ -32,16 +32,19 @@ func (m erroringAPIMock) GetHello() (*api.HelloResponse, error) {
 
 func Test_HomeHandler(t *testing.T) {
 	tt := map[string]struct {
-		mock client
-		want string
+		mock   client
+		want   string
+		status int
 	}{
 		"Successful request": {
-			mock: successfulAPIMock{},
-			want: `{"message": "foo"}`,
+			mock:   successfulAPIMock{},
+			want:   `{"message": "foo"}`,
+			status: http.StatusOK,
 		},
 		"Erroring request": {
-			mock: erroringAPIMock{},
-			want: `{"error": "unable to get message"}`,
+			mock:   erroringAPIMock{},
+			want:   `{"error": "unable to get message"}`,
+			status: http.StatusInternalServerError,
 		},
 	}
 
@@ -53,11 +56,15 @@ func Test_HomeHandler(t *testing.T) {
 			}
 
 			rec := httptest.NewRecorder()
-			f := handler.HomeHandler(tc.mock)
+			f := handler.Home(tc.mock)
 			f(rec, req)
 
 			res := rec.Result()
 			defer res.Body.Close()
+
+			if res.StatusCode != tc.status {
+				t.Errorf("invalid status, got %d, want %d", res.StatusCode, tc.status)
+			}
 
 			raw, err := io.ReadAll(res.Body)
 			if err != nil {
@@ -65,7 +72,7 @@ func Test_HomeHandler(t *testing.T) {
 			}
 
 			if string(raw) != tc.want {
-				t.Fatalf("got %q, want %q", raw, tc.want)
+				t.Errorf("invalid response body, got %q, want %q", raw, tc.want)
 			}
 		})
 	}
