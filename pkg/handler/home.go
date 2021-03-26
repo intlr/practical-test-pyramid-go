@@ -3,23 +3,19 @@ package handler
 import (
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 
 	"github.com/alr-lab/practical-test-pyramid-go/pkg/ext/api"
 )
 
 // describes the client contract
-type client interface {
+type Client interface {
 	GetHello() (*api.HelloResponse, error)
 }
 
-// HomeHandler returns the handler function responsible to handle home
-// requests
-func HomeHandler(c client) http.HandlerFunc {
+// Home returns the handler function responsible to handle home requests
+func Home(c Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, _ *http.Request) {
-		log.Print("Serving root request")
-
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 
 		res, err := c.GetHello()

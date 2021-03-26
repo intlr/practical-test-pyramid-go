@@ -12,36 +12,28 @@ import (
 )
 
 type (
-	// describes the client contract
-	client interface {
-		GetHello() (*api.HelloResponse, error)
-	}
-
+	// describes a client mock which will return a successful response
 	successfulAPIMock struct{}
 
+	// describes a client mock which will return an erroring response
 	erroringAPIMock struct{}
 )
 
-func (m successfulAPIMock) GetHello() (*api.HelloResponse, error) {
-	return &api.HelloResponse{Message: "foo"}, nil
-}
-
-func (m erroringAPIMock) GetHello() (*api.HelloResponse, error) {
-	return nil, fmt.Errorf("some error")
-}
-
-func Test_HomeHandler(t *testing.T) {
+func Test_Home(t *testing.T) {
 	tt := map[string]struct {
-		mock client
-		want string
+		mock   handler.Client
+		want   string
+		status int
 	}{
 		"Successful request": {
-			mock: successfulAPIMock{},
-			want: `{"message": "foo"}`,
+			mock:   successfulAPIMock{},
+			want:   `{"message": "foo"}`,
+			status: http.StatusOK,
 		},
 		"Erroring request": {
-			mock: erroringAPIMock{},
-			want: `{"error": "unable to get message"}`,
+			mock:   erroringAPIMock{},
+			want:   `{"error": "unable to get message"}`,
+			status: http.StatusInternalServerError,
 		},
 	}
 
@@ -53,11 +45,15 @@ func Test_HomeHandler(t *testing.T) {
 			}
 
 			rec := httptest.NewRecorder()
-			f := handler.HomeHandler(tc.mock)
+			f := handler.Home(tc.mock)
 			f(rec, req)
 
 			res := rec.Result()
 			defer res.Body.Close()
+
+			if res.StatusCode != tc.status {
+				t.Errorf("invalid status, got %d, want %d", res.StatusCode, tc.status)
+			}
 
 			raw, err := io.ReadAll(res.Body)
 			if err != nil {
@@ -65,8 +61,16 @@ func Test_HomeHandler(t *testing.T) {
 			}
 
 			if string(raw) != tc.want {
-				t.Fatalf("got %q, want %q", raw, tc.want)
+				t.Errorf("invalid response body, got %q, want %q", raw, tc.want)
 			}
 		})
 	}
+}
+
+func (m successfulAPIMock) GetHello() (*api.HelloResponse, error) {
+	return &api.HelloResponse{Message: "foo"}, nil
+}
+
+func (m erroringAPIMock) GetHello() (*api.HelloResponse, error) {
+	return nil, fmt.Errorf("some error")
 }
