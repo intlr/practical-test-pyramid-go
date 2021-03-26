@@ -19,27 +19,28 @@ import (
 func TestService_fixtures(t *testing.T) {
 	// Arrange
 	tt := map[string]struct {
-		want     string
-		fixtures string
-		ctx      context.Context
+		want    string
+		fixture string
+		ctx     context.Context
 	}{
 		"Successful": {
-			want:     "foo",
-			fixtures: "successful",
-			ctx:      context.Background(),
+			want:    "foo",
+			fixture: "successful",
+			ctx:     context.Background(),
 		},
 		"Unexisting": {
-			want:     "",
-			fixtures: "unexisting",
-			ctx:      context.Background(),
+			want:    "",
+			fixture: "unexisting",
+			ctx:     context.Background(),
 		},
 	}
 
 	for name, tc := range tt {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
-			conn := dbtesting.DatabaseHelper(t, fmt.Sprintf("testdata/%s", tc.fixtures))
-			defer conn.Close()
+			fixtureDir := fmt.Sprintf("testdata/%s", tc.fixture)
+			conn, teardown := dbtesting.DatabaseHelper(t, fixtureDir)
+			defer teardown()
 			st := &store.Store{}
 			st.SetConn(conn)
 			serv := service.New(st)

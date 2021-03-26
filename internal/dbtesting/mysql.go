@@ -31,7 +31,7 @@ const (
 
 // DatabaseHelper provides a connection to a datastore with the application
 // schema and some fixtures is passed as an argument
-func DatabaseHelper(t *testing.T, fixtureDir string) *sql.DB {
+func DatabaseHelper(t *testing.T, fixtureDir string) (*sql.DB, func()) {
 	t.Helper()
 
 	b := make([]byte, 16)
@@ -83,7 +83,12 @@ func DatabaseHelper(t *testing.T, fixtureDir string) *sql.DB {
 		fixtures(t, conn, fixtureDir)
 	}
 
-	return conn
+	teardown := func() {
+		_, _ = conn.Exec(fmt.Sprintf(`DROP DATABASE IF EXISTS %s`, schema))
+		conn.Close()
+	}
+
+	return conn, teardown
 }
 
 // Run fixtures against newly created database described by the connection
