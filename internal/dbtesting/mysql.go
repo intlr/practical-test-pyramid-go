@@ -40,7 +40,7 @@ func DatabaseHelper(t *testing.T, fixtureDir string) *sql.DB {
 		t.Fatalf("Unable to generate database schema UUID")
 	}
 
-	// Database schema, must start with a letter
+	// Database schema, must start with a letter, ensures the schema is unique
 	schema := fmt.Sprintf("a_%x_%x_%x_%x_%x", b[0:4], b[4:6], b[6:8], b[8:10], b[10:])
 
 	dsn := fmt.Sprintf(
