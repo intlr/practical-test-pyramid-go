@@ -9,12 +9,12 @@ import (
 )
 
 // describes the client contract
-type client interface {
+type Client interface {
 	GetHello() (*api.HelloResponse, error)
 }
 
 // Home returns the handler function responsible to handle home requests
-func Home(c client) http.HandlerFunc {
+func Home(c Client) http.HandlerFunc {
 	return func(w http.ResponseWriter, _ *http.Request) {
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 

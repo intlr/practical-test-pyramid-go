@@ -12,27 +12,16 @@ import (
 )
 
 type (
-	// describes the client contract
-	client interface {
-		GetHello() (*api.HelloResponse, error)
-	}
-
+	// describes a client mock which will return a successful response
 	successfulAPIMock struct{}
 
+	// describes a client mock which will return an erroring response
 	erroringAPIMock struct{}
 )
 
-func (m successfulAPIMock) GetHello() (*api.HelloResponse, error) {
-	return &api.HelloResponse{Message: "foo"}, nil
-}
-
-func (m erroringAPIMock) GetHello() (*api.HelloResponse, error) {
-	return nil, fmt.Errorf("some error")
-}
-
-func Test_HomeHandler(t *testing.T) {
+func Test_Home(t *testing.T) {
 	tt := map[string]struct {
-		mock   client
+		mock   handler.Client
 		want   string
 		status int
 	}{
@@ -76,4 +65,12 @@ func Test_HomeHandler(t *testing.T) {
 			}
 		})
 	}
+}
+
+func (m successfulAPIMock) GetHello() (*api.HelloResponse, error) {
+	return &api.HelloResponse{Message: "foo"}, nil
+}
+
+func (m erroringAPIMock) GetHello() (*api.HelloResponse, error) {
+	return nil, fmt.Errorf("some error")
 }
