@@ -1,13 +1,21 @@
+// Copyright 2021 Alexandre Le Roy. All rights reserved.
+// Use of this source code is governed by a MIT license that can be found in
+// the LICENSE file.
+
 // +build unit
 
-// Simple unit test
-//
-// Part of the Test Double repository I also published
-// https://github.com/alr-lab/test-double-go
-//
-// The System Under Test is the ``Service'' object, and both the public
-// interfaces ``New'' and ``Get'' are tested. It is considered a solitary
-// unit test as we are doubling the datastore.
+/*
+
+Simple unit test
+
+Part of the Test Double repository I also published
+https://github.com/alr-lab/test-double-go
+
+The System Under Test is the ``Service'' object, and both the public
+interfaces ``New'' and ``Get'' are tested. It is considered a solitary
+unit test as we are doubling the datastore.
+
+*/
 package service_test
 
 import (
