@@ -2,31 +2,47 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/alr-lab/practical-test-pyramid-go/pkg/ext/api"
+	"github.com/alr-lab/practical-test-pyramid-go/pkg/handler"
+)
+
+const (
+	// describes home endpoint
+	endpointHome = "/"
+
+	// describes the environment variable holding the application port
+	envApplicationPort = "APPLICATION_PORT"
+
+	// describes the environment variable holding the external API hostnam
+	envExternalAPIHostname = "EXTERNAL_API_HOST"
+)
+
+var (
+	// describes the application port
+	applicationPort = os.Getenv(envApplicationPort)
+
+	// describes the external API hostname
+	externalAPIHostname = os.Getenv(envExternalAPIHostname)
 )
 
 func main() {
-	c := (&api.Client{Hostname: "http://mockapi:8081"})
-	log.Print("Starting server...")
+	c := &api.Client{Hostname: externalAPIHostname}
+	addr := fmt.Sprintf(":%s", applicationPort)
 
-	http.HandleFunc("/", func(w http.ResponseWriter, _ *http.Request) {
-		log.Print("Serving request")
-		w.Header().Set("Content-Type", "application/json; charset=utf-8")
-		res, err := c.GetHello()
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			io.WriteString(w, `{"error": "unable to get message"}`)
-			return
-		}
-
-		io.WriteString(w, fmt.Sprintf(`{"message": "%s"}`, res.Message))
-	})
-
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	err := http.ListenAndServe(addr, handle(c))
+	if err != nil {
 		log.Fatalf("Unable to start server, err = %s", err)
 	}
+}
+
+func handle(c *api.Client) http.Handler {
+	s := http.NewServeMux()
+
+	s.HandleFunc(endpointHome, handler.HomeHandler(c))
+
+	return s
 }
