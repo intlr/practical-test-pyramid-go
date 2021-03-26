@@ -12,7 +12,7 @@ import (
 	"github.com/alr-lab/practical-test-pyramid-go/pkg/ext/api"
 )
 
-// describes the external API client contract
+// External API client contract
 type client interface {
 	GetHello() (*api.HelloResponse, error)
 }

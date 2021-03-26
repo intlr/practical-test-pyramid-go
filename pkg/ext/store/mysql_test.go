@@ -37,8 +37,8 @@ func TestStore(t *testing.T) {
 	for name, tc := range tt {
 		t.Run(name, func(t *testing.T) {
 			fixtureDir := fmt.Sprintf("testdata/%s", tc.fixture)
-			conn := dbtesting.DatabaseHelper(t, fixtureDir)
-			defer func() { _ = conn.Close() }()
+			conn, teardown := dbtesting.DatabaseHelper(t, fixtureDir)
+			defer teardown()
 			st := (&store.Store{}).SetConn(conn)
 
 			// Act
