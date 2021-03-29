@@ -4,3 +4,4 @@ git_source(:github) {|repo_name| "https://github.com/alr-lab/practical-test-pyra
 
 gem 'jekyll', '=3.9.0'
 gem 'github-pages', '~> 211', group: :jekyll_plugins
+gem 'kramdown', '>=2.3.1'
